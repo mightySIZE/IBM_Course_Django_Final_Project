@@ -67,7 +67,7 @@
                                     <div id="collapse-container-{{lesson.id}}" class="collapse">
                                         <p>"{{lesson.title}}" Exam will be shown here later</p>
 
-                                        <form id="questionform" action="point to a submit view" method="post">
+                                        <form id="questionform" action="submit/" method="post">
                                         {% for question in course.question_set.all %}
                                         <div class="card mt-1">
                                             <div class="card-header"> <h5>{{question.order|add:1}}{{question.question_text}}</h5> </div>

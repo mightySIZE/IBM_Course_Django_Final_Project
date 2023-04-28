@@ -125,7 +125,8 @@ def submit(request, course_id):
 
         submission.save()
         #return redirect(show_exam_result(request, course_id, submission.id))
-        return redirect('show_exam_result', course_id=course_id, submission_id=submission.id)  # Use a URL pattern name instead of the view function
+        #return redirect('onlinecourse:show_exam_result', course_id=course_id, submission_id=submission.id)
+        return HttpResponseRedirect(reverse(viewname='onlinecourse:show_exam_result', args=(course_id, submission.id)))
     else:
         # Handle the case when the request method is not POST
         return HttpResponseNotAllowed(['POST'])
@@ -164,5 +165,13 @@ def show_exam_result(request, course_id, submission_id):
         if is_correct:
             total_score += question.grade
     
-    # Add the course, selected_ids, and grade to context for rendering HTML page
-    context = {course_id, selected_choice_ids, total_score}
+    context = {
+        'course_id': course_id,
+        'submission_id': submission_id,
+        'course': course,
+        'selected_choice_ids': selected_choice_ids,
+        'total_score': total_score,
+        'user': request.user,
+    }
+
+    return render(request, 'onlinecourse/exam_result_bootstrap.html', context)
