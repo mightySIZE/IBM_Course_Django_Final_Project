@@ -149,4 +149,20 @@ def extract_answers(request):
         # For each selected choice, check if it is a correct answer or not
         # Calculate the total score
 def show_exam_result(request, course_id, submission_id):
-    pass
+    course = get_object_or_404(Course, pk=course_id)
+    submission = get_object_or_404(Submission, pk=submission_id)
+    selected_choice_ids = submission.choices.values_list('pk', flat=True)
+
+    total_score = 0
+    for question in course.question_set.all():
+        is_correct = True
+        for choice in question.choice_set.all():
+            if choice.is_correct and choice.pk not in selected_choice_ids:
+                is_correct = False
+            elif not choice.is_correct and choice.pk in selected_choice_ids:
+                is_correct = False
+        if is_correct:
+            total_score += question.grade
+    
+    # Add the course, selected_ids, and grade to context for rendering HTML page
+    context = {course_id, selected_choice_ids, total_score}
