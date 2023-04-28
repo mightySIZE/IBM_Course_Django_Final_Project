@@ -40,7 +40,7 @@
     </nav>
 
     <!-- Page content -->
-    <div class="container-fluid">
+    {% comment %} <div class="container-fluid">
             <h2>{{ course.name }}</h2>
             <div class="card-columns-vertical">
                 {% for lesson in course.lesson_set.all %}
@@ -49,7 +49,7 @@
                         <div class="card-body">{{lesson.content}}</div>
                     </div>
                 {% endfor %}
-            </div>
+            </div> {% endcomment %}
             <!-- Task: show questions and choices -->
             <!-- <HINT> Use Bootstrap Collapse to hide exam first, more details could be found here
             https://www.w3schools.com/bootstrap4/bootstrap_collapse.asp-->
@@ -62,7 +62,7 @@
                             <div class="card-body">{{lesson.content}}</div>
                             <div class="container-fluid d-flex justify-content-center align-items-center full-height">
                                 <div>
-                                  <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapse-container-{{lesson.id}}">Start Exam</button>
+                                  <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#collapse-container-{{lesson.id}}">Start {{lesson.title}} Exam</button>
                                   {% if user.is_authenticated %}
                                     <div id="collapse-container-{{lesson.id}}" class="collapse">
                                         <p>"{{lesson.title}}" Exam will be shown here later</p>
